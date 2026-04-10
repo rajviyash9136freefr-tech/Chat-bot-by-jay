@@ -9,11 +9,13 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
   // Fetch all conversations on load
   useEffect(() => {
     const fetchConversations = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/conversations');
+        const response = await fetch(`${API_URL}/api/conversations`);
         if (!response.ok) throw new Error('Failed to fetch conversations');
         const data = await response.json();
         
@@ -47,7 +49,7 @@ function App() {
     if (currentChat && currentChat.messages.length === 0) {
       const fetchHistory = async () => {
         try {
-          const response = await fetch(`http://localhost:3001/api/conversations/${activeChatId}`);
+          const response = await fetch(`${API_URL}/api/conversations/${activeChatId}`);
           if (!response.ok) throw new Error('Failed to fetch history');
           const data = await response.json();
           
@@ -126,7 +128,7 @@ function App() {
         conversationId: isTemp ? null : currentChatId
       };
 
-      const response = await fetch('http://localhost:3001/api/chat', {
+      const response = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

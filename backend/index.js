@@ -6,7 +6,13 @@ const db = require('./db');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+// CORS configuration
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || '*',
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Initialize Database Tables
